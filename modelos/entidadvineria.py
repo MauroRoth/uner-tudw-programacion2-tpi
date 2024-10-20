@@ -21,7 +21,7 @@ class EntidadVineria(ABC):
     def obtnerNombre(self) -> str:
         return self._nombre
 
-    @abstractmethod
+    #@abstractmethod
     def __eq__(self, value: object) -> bool: # todo
         # Se debe sobreescribir la consulta __eq__ 
         # para que compare dos objetos

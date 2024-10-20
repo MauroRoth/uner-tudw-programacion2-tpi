@@ -20,10 +20,10 @@ class RecursoBodega(Resource):
 
     def get(self, id):
         bodega = vinoteca.Vinoteca.buscarBodega(id)
-        if isinstance(bodega, Bodega):
-            return json.loads(json.dumps(bodega.convertirAJSONFull())), 200
-        else:
-            return {"error": "Bodega no encontrada"}, 404
+        #if isinstance(bodega, Bodega):
+        return json.loads(json.dumps(bodega.convertirAJSONFull())), 200
+        #else:
+        #    return {"error": "Bodega no encontrada"}, 404
 
 
 class RecursoBodegas(Resource):

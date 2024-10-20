@@ -1,9 +1,11 @@
 import json
-from .entidadvineria import EntidadVineria
-import modelos.bodega as b
-import modelos.cepa as c
 
-class Vino(EntidadVineria):
+from modelos import entidadvineria
+from modelos import bodega
+from modelos import cepa
+
+
+class Vino(entidadvineria.EntidadVineria):
     # atributos de clase
     # método de inicialización
     def __init__(self, id: str, nombre: str) -> None:
@@ -25,9 +27,9 @@ class Vino(EntidadVineria):
         ...
     def obtenerNombre(self) -> str:
         ...
-    def obtenerBodega(self) -> b.Bodega:
+    def obtenerBodega(self) -> 'bodega.Bodega':
         ...
-    def obtenerCepas(self) -> list[c.Cepa]:
+    def obtenerCepas(self) -> list['cepa.Cepa']:
         ...
     def obtenerPartidas(self) -> list[int]:
         ...
@@ -57,3 +59,4 @@ class Vino(EntidadVineria):
         cepas = self.obtenerCepas()
         cepasMapa = map(lambda a: a.obtenerNombre(), cepas)
         return list(cepasMapa)
+

@@ -3,18 +3,20 @@ import os
 import json
 
 # modelos
-from modelos.bodega import Bodega
-from modelos.cepa import Cepa
-from modelos.vino import Vino
+from modelos import bodega
+from modelos import cepa
+from modelos import vino
 
 
 class Vinoteca:
-
+    # atributos de clase
     __archivoDeDatos = "vinoteca.json"
     __todos: dict = {}
     __bodegas: list = []
     __cepas: list = []
     __vinos: list = []
+
+    # sin atributos de instancia
 
     def inicializar():
         datos = Vinoteca.__parsearArchivoDeDatos()
@@ -51,7 +53,7 @@ class Vinoteca:
         return Vinoteca.__vinos
 
     def buscarBodega(id):
-        pass  # completar
+        return list(filter(lambda bodega: bodega['id']==id,Vinoteca.__bodegas))
 
     def buscarCepa(id):
         pass  # completar

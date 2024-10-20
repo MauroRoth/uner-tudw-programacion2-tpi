@@ -1,11 +1,11 @@
 import json
 
-from .entidadvineria import EntidadVineria
-from .vino import Vino
-from .cepa import Cepa
+from modelos import entidadvineria
+from modelos import vino
+from modelos import cepa
 import vinoteca
 
-class Bodega(EntidadVineria):
+class Bodega(entidadvineria.EntidadVineria):
     # atributos de clase
     # método de inicialización
     def __init__(self, id: str, nombre: str) -> None: # doing
@@ -14,13 +14,13 @@ class Bodega(EntidadVineria):
     
     # comandos
     # consultas
-    def obtenerVinos(self) -> list[Vino]: # doing
+    def obtenerVinos(self) -> list['vino.Vino']: # doing
         vinos = vinoteca.Vinoteca.obtenerVinos()
         vinos_bodega = list(filter(lambda x: x["bodega"]==self._id,vinos))
         return vinos_bodega
     
 
-    def obtenerCepas() -> list[Cepa]:
+    def obtenerCepas() -> list['cepa.Cepa']:
         #cepas = Vinoteca.obtenerCepas()
         #return cepas
         ...

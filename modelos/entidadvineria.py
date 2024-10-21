@@ -18,7 +18,7 @@ class EntidadVineria(ABC):
     def obtenerId(self) -> str:
         return self._id
     
-    def obtnerNombre(self) -> str:
+    def obtenerNombre(self) -> str:
         return self._nombre
 
     #@abstractmethod

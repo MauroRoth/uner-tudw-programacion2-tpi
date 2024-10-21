@@ -13,10 +13,16 @@ if __name__ == "__main__":
 
     app = Flask(__name__)
 
-    @app.route("/home")
+    @app.route("/")
     def home():
-        items = ['Bodegas', 'Cepas', 'Vinos']
-        return render_template('index.html', title='VINOTECA', items=items)
+        urls = [
+            'http://127.0.0.1:5000/api/bodegas/a0900e61-0f72-67ae-7e9d-4218da29b7d8',
+            'http://127.0.0.1:5000/api/cepas/33ccaa9d-4710-9942-002d-1b5cb9912e5d',
+            'http://127.0.0.1:5000/api/vinos/4823ad54-0a3a-38b8-adf6-795512994a4f',
+            'http://127.0.0.1:5000/api/vinos?anio=2020&orden=nombre&reverso=no',
+            'http://127.0.0.1:5000/api/vinos?anio=2020&orden=nombre&reverso=si',
+            ]
+        return render_template('index.html', title='VINOTECA', urls=urls)
     
     # API RESTful
     api = Api(app)
@@ -29,3 +35,5 @@ if __name__ == "__main__":
     api.add_resource(RecursoVinos, '/api/vinos')
 #
     app.run(debug=True)
+
+    

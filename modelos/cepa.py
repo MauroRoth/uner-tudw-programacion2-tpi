@@ -18,10 +18,15 @@ class Cepa(entidadvineria.EntidadVineria):
     
     def obtenerVinos(self) -> list['vino.Vino']:
         vinos = vinoteca.Vinoteca.obtenerVinos()
-        vinos_bodega = list(filter(lambda x: x["bodega"]==self._id,vinos))
-        return vinos_bodega
+        vinos_cepa = list()
+        for vino in vinos:
+            for cepa in vino.obtenerCepas():
+                if self._id == cepa.obtenerId():
+                    vinos_cepa.append(vino)
+        #vinos_cepa = list(filter(lambda c: c.obtenerID()==self._id,map(lambda v: v.obtenerCepas(),vinos)))
+        return vinos_cepa
 
-    def convertirAJSON(self) -> dict:
+    def convertirAdicc(self) -> dict:
         return {
             "id": self.obtenerId(),
             "nombre": self.obtenerNombre(),
@@ -38,10 +43,11 @@ class Cepa(entidadvineria.EntidadVineria):
     def __mapearVinos(self):
         vinos = self.obtenerVinos()
         vinosMapa = map(
-            lambda a: a.obtenerNombre()
+            lambda v: (v.obtenerNombre()
             + " ("
-            + a.obtenerBodega().obtenerNombre()
-            + ")",
-            vinos,
+            + v.obtenerBodega().obtenerNombre()
+            + ")"),
+            vinos
         )
+       
         return list(vinosMapa)

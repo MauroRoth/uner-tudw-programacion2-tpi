@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from flask import request, render_template
+from flask import request
 
 import json
 
@@ -20,10 +20,10 @@ class RecursoBodega(Resource):
 
     def get(self, id):
         bodega = vinoteca.Vinoteca.buscarBodega(id)
-        #if isinstance(bodega, Bodega):
-        return json.loads(json.dumps(bodega.convertirAJSONFull())), 200
-        #else:
-        #    return {"error": "Bodega no encontrada"}, 404
+        if isinstance(bodega, Bodega):
+            return json.loads(json.dumps(bodega.convertirAJSONFull())), 200
+        else:
+            return {"error": "Bodega no encontrada"}, 404
 
 
 class RecursoBodegas(Resource):
@@ -33,12 +33,12 @@ class RecursoBodegas(Resource):
         if orden:
             reverso = request.args.get("reverso")
             bodegas = vinoteca.Vinoteca.obtenerBodegas(
-                orden=orden, reverso=reverso == "si"
+                orden=orden, reverso = reverso == "si"
             )
         else:
             bodegas = vinoteca.Vinoteca.obtenerBodegas()
         return (
-            json.loads(json.dumps(bodegas, default=lambda o: o.convertirAJSON())),
+            json.loads(json.dumps(bodegas, default=lambda o: o.convertirAdicc())),
             200,
         )
 
@@ -63,7 +63,7 @@ class RecursoCepas(Resource):
         else:
             cepas = vinoteca.Vinoteca.obtenerCepas()
         return (
-            json.loads(json.dumps(cepas, default=lambda o: o.convertirAJSONFull())),
+            json.loads(json.dumps(cepas, default=lambda o: o.convertirAdicc())),
             200,
         )
 
@@ -92,7 +92,7 @@ class RecursoVinos(Resource):
             )
         else:
             vinos = vinoteca.Vinoteca.obtenerVinos(anio)
-        return json.loads(json.dumps(vinos, default=lambda o: o.convertirAJSON())), 200
+        return json.loads(json.dumps(vinos, default=lambda o: o.convertirAdicc())), 200
 
 class RecursoHome(Resource):
 

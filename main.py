@@ -43,14 +43,28 @@ if __name__ == "__main__":
             'Cuarto Recurso: Obtiene todos los datos del JSON.'
         ]
         otros_recursos = zip(otras_descripciones,otras_urls)
+        bodegas_titulo = (list(Vinoteca.obtenerTodos().keys()))[0]
+        cepas_titulo = (list(Vinoteca.obtenerTodos().keys()))[1]
+        vinos_titulo = (list(Vinoteca.obtenerTodos().keys()))[2]
+
+        bodegas = Vinoteca.obtenerBodegas()
+        cepas = Vinoteca.obtenerCepas()
+        vinos = Vinoteca.obtenerVinos()
+
         return render_template(
             'index.html', 
             titulo = 'VINOTECA', 
             subtitulo1 =' Recursos Solicitados', 
             recursos_solicitados = recursos_solicitados,
             subtitulo2 = 'Otros Recursos',
-            otros_recursos = otros_recursos)
-            
+            otros_recursos = otros_recursos,
+            subtitulo3 = 'Algunos Datos Tabulados',
+            bodegas_titulo = bodegas_titulo,
+            cepas_titulo = cepas_titulo,
+            vinos_titulo = vinos_titulo,
+            bodegas = bodegas,
+            cepas = cepas,
+            vinos = vinos)
     
     # API RESTful
     api = Api(app)

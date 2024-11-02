@@ -182,10 +182,11 @@ h3 {
 a,
 a:visited {
   color: var(--accent);
+  text-decoration: none;
 }
 
 a:hover {
-  text-decoration: none;
+  color: var(--code)
 }
 
 button,

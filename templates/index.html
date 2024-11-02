@@ -8,18 +8,95 @@
     <link rel="shortcut icon" href="/static/icons8-vino-y-copa-64.png" type="image/x-icon">
 </head>
 <body>
-    <h1>{{ titulo }}</h1>
+    <h1>{{ titulo }} 🍷</h1>
+
     <h2>{{ subtitulo1 }}</h2>
     <ol>
       {% for d,u in recursos_solicitados %}
-        <li style="text-align: justify;">{{ d }}<br><br><a href="{{ u }}">{{ u }}</a></li><br>
+        <li style="text-align: justify;">
+          {{ d }}<br><br>
+          <a href="{{ u }}">
+            <div style="text-align: center;">
+              <b>{{ u[21::] }} 🔗</b>
+            </div>
+          </a>
+        </li><br>
       {% endfor %}
     </ol> 
+
     <h2>{{ subtitulo2 }}</h2>
     <ol>
       {% for d,u in otros_recursos %}
-        <li style="text-align: justify;">{{ d }}<br><br><a href="{{ u }}">{{ u }}</a></li><br>
+        <li style="text-align: justify;">
+          {{ d }}<br><br>
+          <a href="{{ u }}">
+            <div style="text-align: center;">
+              <b>{{ u[21::] }} 🔗</b>
+            </div>
+          </a>
+        </li><br>
       {% endfor %}
     </ol> 
+    <h2>{{ subtitulo3 }}</h2>
+    <table class="bodegas">
+      <tr>
+        <th colspan="2">
+          {{ bodegas_titulo }}
+        </th>
+      </tr>
+      <tr>
+        <th>id</th>
+        <th>nombre</th>
+      </tr>
+      {% for bodega in bodegas %}
+        <tr>
+          <td>{{ bodega.obtenerId() }}</td>
+          <td>{{ bodega.obtenerNombre() }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+
+    <table class="cepas">
+      <tr>
+        <th colspan="2">
+          {{ cepas_titulo }}
+        </th>
+      </tr>
+      <tr>
+        <th>id</th>
+        <th>nombre</th>
+      </tr>
+      {% for cepa in cepas %}
+        <tr>
+          <td>{{ cepa.obtenerId() }}</td>
+          <td>{{ cepa.obtenerNombre() }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+
+    <table class="vinos">
+        <tr>
+          <th colspan="3">
+            {{ vinos_titulo }}
+          </th>
+        </tr>
+        <tr>
+          <th>id</th>
+          <th>nombre</th>
+          <th>bodega</th>
+        </tr>
+        {% for vino in vinos %}
+        <tr>
+          <td>{{ vino.obtenerId() }}</td>
+          <td>{{ vino.obtenerNombre() }}</td>
+          <td>{{ vino.obtenerBodega().obtenerNombre() }}</td>
+        </tr>
+      {% endfor %}
+      </table>
+    <footer>
+      El presente trabajo se hizo en el marco del Trabajo Final Integrador de la asignatura Programación II de la Tecnicatura Universitaria en Desarrollo Web de la Facultad de Ciencias de la Administración de la Universidad Nacional de Entre Ríos.
+      <br>
+      Se utilizó Simple.css, de Kev Quirk, bajo la licencia MIT, como hoja de estilo principal, con algunas modificaciones.
+    </footer>
 </body>
 </html>

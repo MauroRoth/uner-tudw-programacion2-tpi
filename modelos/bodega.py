@@ -1,8 +1,7 @@
 import json
-
-from modelos import entidadvineria
-from modelos import vino
-from modelos import cepa
+from . import entidadvineria
+from . import vino
+from . import cepa
 import vinoteca
 
 class Bodega(entidadvineria.EntidadVineria):
@@ -14,32 +13,43 @@ class Bodega(entidadvineria.EntidadVineria):
     
     # comandos
     # consultas
-    def obtenerNombre(self) -> str:
-        return super().obtenerNombre()
-    
     def obtenerVinos(self) -> list['vino.Vino']: # doing
         vinos = vinoteca.Vinoteca.obtenerVinos()
         vinos_bodega = list()
         for vino in vinos:
             if self._id == vino.obtenerBodega().obtenerId():
                 vinos_bodega.append(vino)
-        #vinos_cepa = list(filter(lambda c: c.obtenerID()==self._id,map(lambda v: v.obtenerCepas(),vinos)))
         return vinos_bodega
     
-
-    # def obtenerCepas(self) -> list['cepa.Cepa']:
-    #     cepas = vinoteca.Vinoteca.obtenerCepas()
-    #     return cepas
-        
-    # def __repr__(self):
-    #     return json.dumps(self.convertirAJSON())
-
-    def convertirAdicc(self) -> dict:
+    def __mapearVinos(self) -> list[str]:
+        vinos = self.obtenerVinos()
+        nombre_vinos_bodega = map(lambda v: v.obtenerNombre(),filter(lambda v: v.obtenerBodega().obtenerId()==self.obtenerId(), vinos))
+        return list(nombre_vinos_bodega)
+    
+    def obtenerCepas(self) -> list['cepa.Cepa']:
+        vinos_bodega = self.obtenerVinos()
+        cepas_bodega = list()
+        for vino in vinos_bodega:
+            for cepa in vino.obtenerCepas():
+                if cepa not in cepas_bodega:
+                    cepas_bodega.append(cepa)
+        return cepas_bodega
+    
+    def __mapearCepas(self) -> list[str]:
+        vinos_bodega = self.obtenerVinos()
+        cepas_bodega = list()
+        for vino in vinos_bodega:
+            for cepa in vino.obtenerCepas():
+                if cepa.obtenerNombre() not in cepas_bodega:
+                    cepas_bodega.append(cepa.obtenerNombre())
+        return cepas_bodega  
+    
+    def convertirAJSON(self) -> dict:
         return {
             "id": self.obtenerId(),
             "nombre": self.obtenerNombre(),
-            #"cepas": self.__mapearCepas(),
-            #"vinos": len(self.obtenerVinos()),
+            "cepas": self.__mapearCepas(),
+            "cantidad vinos": len(self.obtenerVinos()),
         }
 
     def convertirAJSONFull(self) -> dict:
@@ -49,22 +59,6 @@ class Bodega(entidadvineria.EntidadVineria):
             "cepas": self.__mapearCepas(),
             "vinos": self.__mapearVinos(),
         }
-
-    def __mapearCepas(self):
-        #cepas = map(lambda v: v.obtenerCepas(),self.obtenerVinos())
-        vinos = self.obtenerVinos()
-        cepas_bodega = list()
-        for vino in vinos:
-            for cepa in vino.obtenerCepas():
-                if cepa.obtenerNombre() not in cepas_bodega:
-                    cepas_bodega.append(cepa.obtenerNombre())
-        return cepas_bodega
-        #cepasMapa = map(lambda c: c.obte, cepas)
-        #return list(cepas)
         
-
-    def __mapearVinos(self):
-        vinos = self.obtenerVinos()
-        vinos_bodega = map(lambda v: v.obtenerNombre(),filter(lambda v: v.obtenerBodega().obtenerId()==self.obtenerId(), vinos))
-        return list(vinos_bodega)
-        
+    def __repr__(self):
+        return json.dumps(self.convertirAJSON())

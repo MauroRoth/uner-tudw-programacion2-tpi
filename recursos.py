@@ -1,23 +1,18 @@
 from flask_restful import Resource
 from flask import request
-
 import json
-
 import vinoteca
-
 from modelos.bodega import Bodega
 from modelos.cepa import Cepa
 from modelos.vino import Vino
 
 
 class RecursoTodos(Resource):
-
     def get(self):
         todos = vinoteca.Vinoteca.obtenerTodos()
         return todos, 404
         
 class RecursoBodega(Resource):
-
     def get(self, id):
         bodega = vinoteca.Vinoteca.buscarBodega(id)
         if isinstance(bodega, Bodega):
@@ -27,24 +22,22 @@ class RecursoBodega(Resource):
 
 
 class RecursoBodegas(Resource):
-
     def get(self):
         orden = request.args.get("orden")
         if orden:
             reverso = request.args.get("reverso")
             bodegas = vinoteca.Vinoteca.obtenerBodegas(
                 orden=orden, reverso = reverso == "si"
-            )
+                )
         else:
             bodegas = vinoteca.Vinoteca.obtenerBodegas()
         return (
-            json.loads(json.dumps(bodegas, default=lambda o: o.convertirAdicc())),
+            json.loads(json.dumps(bodegas, default=lambda o: o.convertirAJSON())),
             200,
         )
 
 
 class RecursoCepa(Resource):
-
     def get(self, id):
         cepa = vinoteca.Vinoteca.buscarCepa(id)
         if isinstance(cepa, Cepa):
@@ -54,7 +47,6 @@ class RecursoCepa(Resource):
 
 
 class RecursoCepas(Resource):
-
     def get(self):
         orden = request.args.get("orden")
         if orden:
@@ -63,13 +55,12 @@ class RecursoCepas(Resource):
         else:
             cepas = vinoteca.Vinoteca.obtenerCepas()
         return (
-            json.loads(json.dumps(cepas, default=lambda o: o.convertirAdicc())),
+            json.loads(json.dumps(cepas, default=lambda o: o.convertirAJSON())),
             200,
         )
 
 
 class RecursoVino(Resource):
-
     def get(self, id):
         vino = vinoteca.Vinoteca.buscarVino(id)
         if isinstance(vino, Vino):
@@ -79,7 +70,6 @@ class RecursoVino(Resource):
 
 
 class RecursoVinos(Resource):
-
     def get(self):
         anio = request.args.get("anio")
         if anio:
@@ -92,9 +82,8 @@ class RecursoVinos(Resource):
             )
         else:
             vinos = vinoteca.Vinoteca.obtenerVinos(anio)
-        return json.loads(json.dumps(vinos, default=lambda o: o.convertirAdicc())), 200
+        return json.loads(json.dumps(vinos, default=lambda o: o.convertirAJSONFull())), 200
 
 class RecursoHome(Resource):
-
     def get(self):
         return 'BIENVENIDOS A VINOTECA', 404

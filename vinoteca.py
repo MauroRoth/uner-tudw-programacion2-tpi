@@ -3,10 +3,9 @@ import os
 import json
 
 # modelos
-from modelos.bodega import Bodega
-from modelos.cepa import Cepa
-from modelos.vino import Vino
-
+from modelos import bodega as b
+from modelos import cepa as c
+from modelos import vino as v
 
 class Vinoteca:
     # atributos de clase
@@ -25,10 +24,10 @@ class Vinoteca:
     def obtenerTodos():
         return Vinoteca.__todos
     
-    def obtenerBodegas(orden=None, reverso=False) -> list[Bodega]:
-        bodegas: list[Bodega] = list()
+    def obtenerBodegas(orden=None, reverso=False) -> list['b.Bodega']:
+        bodegas: list[b.Bodega] = list()
         for bodega in Vinoteca.__bodegas:
-            bodegas.append(Bodega(bodega['id'],bodega['nombre']))
+            bodegas.append(b.Bodega(bodega['id'],bodega['nombre']))
         if (isinstance(orden, str) and isinstance(reverso, bool)):
             if orden == "nombre":
                 bodegas = sorted(bodegas,key=lambda b:b.obtenerNombre(),reverse=reverso)
@@ -37,20 +36,20 @@ class Vinoteca:
         return bodegas
 
     def obtenerCepas(orden=None, reverso=False):
-        cepas: list[Cepa] = list()
+        cepas: list[c.Cepa] = list()
         for cepa in Vinoteca.__cepas:
-            cepas.append(Cepa(cepa['id'],cepa['nombre']))
+            cepas.append(c.Cepa(cepa['id'],cepa['nombre']))
         if (isinstance(orden, str) and isinstance(reverso, bool)):
             if orden == "nombre":
                 cepas = sorted(cepas,key=lambda c:c.obtenerNombre(),reverse=reverso)
         return cepas
 
-    def obtenerVinos(anio=None, orden=None, reverso=False) -> list[Vino]:
-        vinos: list[Vino] = list()
+    def obtenerVinos(anio=None, orden=None, reverso=False) -> list['v.Vino']:
+        vinos: list[v.Vino] = list()
         for vino in Vinoteca.__vinos:
             bodega = Vinoteca.buscarBodega(vino['bodega'])
             cepas = list(map(lambda c: Vinoteca.buscarCepa(c),vino['cepas']))
-            vinos.append(Vino(vino['id'],vino['nombre'],bodega,cepas,vino['partidas']))
+            vinos.append(v.Vino(vino['id'],vino['nombre'],bodega,cepas,vino['partidas']))
         if isinstance(anio, int):
             vinos = list(filter(lambda v: anio in v.obtenerPartidas(),vinos))
         if isinstance(orden, str) and isinstance(reverso, bool):
@@ -63,16 +62,16 @@ class Vinoteca:
                 # revisar tema orden de los vinos según orden de las cepas, ya que son varias cepas.
         return vinos
 
-    def buscarBodega(id) -> 'Bodega':
+    def buscarBodega(id) -> 'b.Bodega':
         for bodega in Vinoteca.__bodegas:
             if bodega['id'] == id:
-                bodega_encontrada = Bodega(bodega['id'],bodega['nombre'])
+                bodega_encontrada = b.Bodega(bodega['id'],bodega['nombre'])
         return bodega_encontrada
 
-    def buscarCepa(id):
+    def buscarCepa(id) -> 'c.Cepa':
         for cepa in Vinoteca.__cepas:
             if cepa['id'] == id:
-                cepa_encontrada = Cepa(cepa['id'],cepa['nombre'])
+                cepa_encontrada = c.Cepa(cepa['id'],cepa['nombre'])
         return cepa_encontrada
 
     def buscarVino(id):
@@ -80,7 +79,7 @@ class Vinoteca:
             if vino['id'] == id:
                 bodega = Vinoteca.buscarBodega(vino['bodega'])
                 cepas = list(map(lambda c: Vinoteca.buscarCepa(c),vino['cepas']))
-                vino_encontrado = Vino(vino['id'],vino['nombre'],bodega,cepas,vino['partidas'])
+                vino_encontrado = v.Vino(vino['id'],vino['nombre'],bodega,cepas,vino['partidas'])
         return vino_encontrado
 
     def __parsearArchivoDeDatos() -> dict:

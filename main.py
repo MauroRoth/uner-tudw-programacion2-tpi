@@ -22,7 +22,35 @@ if __name__ == "__main__":
             'http://127.0.0.1:5000/api/vinos?anio=2020&orden=nombre&reverso=no',
             'http://127.0.0.1:5000/api/vinos?anio=2020&orden=nombre&reverso=si',
             ]
-        return render_template('index.html', title='VINOTECA', urls=urls)
+        descripciones = [
+            'Primer Recurso: Obtiene una bodega determinada por su id, sabemos de ella su nombre, las cepas y los vinos que contiene.',
+            'Segundo Recurso: Obtiene una cepa determinada por su id, sabemos de ella su nombre, y los vinos que la contienen con sus respectivas bodegas.',
+            'Tercer Recurso: Obtiene un vino determinado por su id, sabemos de él su nombre, la bodega a la que pertenece, las cepas y partidas en las que se ofrece.',
+            'Cuarto Recurso: Obtiene los vinos, sus id, sus nombres, las cepas y partidas de los mismos. Si entre las partidas se encuentra el año 2020 y ordenándolos según su nombre de manera directa.',
+            'Cuarto Recurso: Obtiene los vinos, sus id, sus nombres, las cepas y partidas de los mismos. Si entre las partidas se encuentra el año 2020 y ordenándolos según su nombre de manera indirecta.'
+        ]
+        recursos_solicitados = zip(descripciones,urls)
+        otras_urls = [
+            'http://127.0.0.1:5000/api/bodegas',
+            'http://127.0.0.1:5000/api/cepas',
+            'http://127.0.0.1:5000/api/vinos',
+            'http://127.0.0.1:5000/api'
+            ]
+        otras_descripciones = [
+            'Primer Recurso: Obtiene todas las bodegas, sus id, sus nombres, sus cepas y la cantidad de vinos que posee. ',
+            'Segundo Recurso: Obtiene todas las cepas, sus id, sus nombres y la cantidad de vinos en los que está presente. ',
+            'Tercer Recurso: Obtiene todos los vinos, sus id, sus nombres, la bodega a la que pertenece, las cepas y las partidas que tiene. ',
+            'Cuarto Recurso: Obtiene todos los datos del JSON.'
+        ]
+        otros_recursos = zip(otras_descripciones,otras_urls)
+        return render_template(
+            'index.html', 
+            titulo = 'VINOTECA', 
+            subtitulo1 =' Recursos Solicitados', 
+            recursos_solicitados = recursos_solicitados,
+            subtitulo2 = 'Otros Recursos',
+            otros_recursos = otros_recursos)
+            
     
     # API RESTful
     api = Api(app)
@@ -33,7 +61,7 @@ if __name__ == "__main__":
     api.add_resource(RecursoCepas, '/api/cepas')
     api.add_resource(RecursoVino, '/api/vinos/<id>')
     api.add_resource(RecursoVinos, '/api/vinos')
-#
+
     app.run(debug=True)
 
     

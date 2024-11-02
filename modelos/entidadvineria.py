@@ -22,9 +22,7 @@ class EntidadVineria(ABC):
         return self._nombre
 
     #@abstractmethod
-    def __eq__(self, value: object) -> bool: # todo
-        # Se debe sobreescribir la consulta __eq__ 
-        # para que compare dos objetos
-        # de la clase por el atributo de instancia id.
-        return super().__eq__(value)
+    def __eq__(self, entidadvineria: 'EntidadVineria') -> bool: 
+        eq = self._id == entidadvineria.obtenerId()
+        return eq
 

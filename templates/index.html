@@ -8,8 +8,16 @@
     <link rel="shortcut icon" href="/static/icons8-vino-y-copa-64.png" type="image/x-icon">
 </head>
 <body>
-    <h1>{{ titulo }} 🍷</h1>
-
+    <header>
+      <h1>{{ titulo }} 🍷</h1>
+      <nav>
+        <ul style="display: flex; flex-direction: row; justify-content: space-evenly;">
+          <li>{{subtitulo1}}</li>
+          <li>{{subtitulo2}}</li>
+          <li>{{subtitulo3}}</li>
+        </ul>
+      </nav>
+    </header>
     <h2>{{ subtitulo1 }}</h2>
     <ol>
       {% for d,u in recursos_solicitados %}
@@ -37,6 +45,7 @@
         </li><br>
       {% endfor %}
     </ol> 
+
     <h2>{{ subtitulo3 }}</h2>
     <table class="bodegas">
       <tr>
@@ -74,9 +83,10 @@
       {% endfor %}
     </table>
 
+    <figure>
     <table class="vinos">
         <tr>
-          <th colspan="3">
+          <th colspan="5">
             {{ vinos_titulo }}
           </th>
         </tr>
@@ -84,15 +94,28 @@
           <th>id</th>
           <th>nombre</th>
           <th>bodega</th>
+          <th>cepas</th>
+          <th>partidas</th>
         </tr>
         {% for vino in vinos %}
         <tr>
           <td>{{ vino.obtenerId() }}</td>
           <td>{{ vino.obtenerNombre() }}</td>
           <td>{{ vino.obtenerBodega().obtenerNombre() }}</td>
+          <td>
+            {% for cepa in vino.obtenerCepas() %}
+              <li> {{ cepa.obtenerNombre() }} </li>
+            {% endfor %}
+          </td>
+          <td>
+            {% for partida in vino.obtenerPartidas() %}
+              <li> {{ partida }} </li>
+            {% endfor %}
+          </td>
         </tr>
       {% endfor %}
       </table>
+      </figure>
     <footer>
       El presente trabajo se hizo en el marco del Trabajo Final Integrador de la asignatura Programación II de la Tecnicatura Universitaria en Desarrollo Web de la Facultad de Ciencias de la Administración de la Universidad Nacional de Entre Ríos.
       <br>

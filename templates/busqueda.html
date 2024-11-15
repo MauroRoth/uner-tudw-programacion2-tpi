@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+    <h2>{{ subtitulo1 }}</h2>
+    <ol>
+      {% for d,u in recursos_solicitados %}
+        <li style="text-align: justify;">
+          {{ d }}<br><br>
+          <a href="{{ u }}">
+            <div style="text-align: center;">
+              <b>{{ u[21::] }} 🔗</b>
+            </div>
+          </a>
+        </li><br>
+      {% endfor %}
+    </ol> 
+
+    <h2>{{ subtitulo2 }}</h2>
+    <ol>
+      {% for d,u in otros_recursos %}
+        <li style="text-align: justify;">
+          {{ d }}<br><br>
+          <a href="{{ u }}">
+            <div style="text-align: center;">
+              <b>{{ u[21::] }} 🔗</b>
+            </div>
+          </a>
+        </li><br>
+      {% endfor %}
+    </ol> 
+
+    <h2>{{ subtitulo3 }}</h2>
+    <table class="bodegas">
+      <tr>
+        <th colspan="2">
+          {{ bodegas_titulo }}
+        </th>
+      </tr>
+      <tr>
+        <th>id</th>
+        <th>nombre</th>
+      </tr>
+      {% for bodega in bodegas %}
+        <tr>
+          <td>{{ bodega.obtenerId() }}</td>
+          <td>{{ bodega.obtenerNombre() }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+
+    <table class="cepas">
+      <tr>
+        <th colspan="2">
+          {{ cepas_titulo }}
+        </th>
+      </tr>
+      <tr>
+        <th>id</th>
+        <th>nombre</th>
+      </tr>
+      {% for cepa in cepas %}
+        <tr>
+          <td>{{ cepa.obtenerId() }}</td>
+          <td>{{ cepa.obtenerNombre() }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+
+    <figure>
+    <table class="vinos">
+        <tr>
+          <th colspan="5">
+            {{ vinos_titulo }}
+          </th>
+        </tr>
+        <tr>
+          <th>id</th>
+          <th>nombre</th>
+          <th>bodega</th>
+          <th>cepas</th>
+          <th>partidas</th>
+        </tr>
+        {% for vino in vinos %}
+        <tr>
+          <td>{{ vino.obtenerId() }}</td>
+          <td>{{ vino.obtenerNombre() }}</td>
+          <td>{{ vino.obtenerBodega().obtenerNombre() }}</td>
+          <td>
+            {% for cepa in vino.obtenerCepas() %}
+              <li> {{ cepa.obtenerNombre() }} </li>
+            {% endfor %}
+          </td>
+          <td>
+            {% for partida in vino.obtenerPartidas() %}
+              <li> {{ partida }} </li>
+            {% endfor %}
+          </td>
+        </tr>
+      {% endfor %}
+      </table>
+      </figure>
+  
+     {% for f in form %}
+      <div>{{f}}</div>
+     {% endfor %}
+
+{% endblock contenido %}

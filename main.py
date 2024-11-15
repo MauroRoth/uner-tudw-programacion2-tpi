@@ -2,10 +2,11 @@
 from flask import Flask, render_template
 from flask_restful import Api
 
-from vinoteca import Vinoteca
-
 # API
 from recursos import *
+
+# Vinoteca
+from vinoteca import Vinoteca
 
 if __name__ == "__main__":
     
@@ -13,7 +14,7 @@ if __name__ == "__main__":
 
     app = Flask(__name__)
 
-    @app.route("/")
+    @app.route("/", methods=['GET'])
     def home():
         urls = [
             'http://127.0.0.1:5000/api/bodegas/a0900e61-0f72-67ae-7e9d-4218da29b7d8',
@@ -46,13 +47,11 @@ if __name__ == "__main__":
         bodegas_titulo = (list(Vinoteca.obtenerTodos().keys()))[0]
         cepas_titulo = (list(Vinoteca.obtenerTodos().keys()))[1]
         vinos_titulo = (list(Vinoteca.obtenerTodos().keys()))[2]
-
         bodegas = Vinoteca.obtenerBodegas()
         cepas = Vinoteca.obtenerCepas()
         vinos = Vinoteca.obtenerVinos()
-
         return render_template(
-            'index.html', 
+            'home.html', 
             titulo = 'VINOTECA', 
             subtitulo1 =' Recursos Solicitados', 
             recursos_solicitados = recursos_solicitados,
@@ -64,7 +63,14 @@ if __name__ == "__main__":
             vinos_titulo = vinos_titulo,
             bodegas = bodegas,
             cepas = cepas,
-            vinos = vinos)
+            vinos = vinos
+            )
+    
+    
+
+    
+    
+
     
     # API RESTful
     api = Api(app)

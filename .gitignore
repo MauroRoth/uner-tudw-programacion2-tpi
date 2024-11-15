@@ -1,3 +1,11 @@
 tester.py
-__pycache__
+__pycache__/
 .venvFlask
+*.pyc
+instance/
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/

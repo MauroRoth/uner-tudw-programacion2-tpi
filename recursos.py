@@ -6,7 +6,6 @@ from modelos.bodega import Bodega
 from modelos.cepa import Cepa
 from modelos.vino import Vino
 
-
 class RecursoTodos(Resource):
     def get(self):
         todos = vinoteca.Vinoteca.obtenerTodos()
@@ -19,7 +18,6 @@ class RecursoBodega(Resource):
             return json.loads(json.dumps(bodega.convertirAJSONFull())), 200
         else:
             return {"error": "Bodega no encontrada"}, 404
-
 
 class RecursoBodegas(Resource):
     def get(self):
@@ -36,7 +34,6 @@ class RecursoBodegas(Resource):
             200,
         )
 
-
 class RecursoCepa(Resource):
     def get(self, id):
         cepa = vinoteca.Vinoteca.buscarCepa(id)
@@ -44,7 +41,6 @@ class RecursoCepa(Resource):
             return json.loads(json.dumps(cepa.convertirAJSONFull())), 200
         else:
             return {"error": "Cepa no encontrada"}, 404
-
 
 class RecursoCepas(Resource):
     def get(self):
@@ -59,7 +55,6 @@ class RecursoCepas(Resource):
             200,
         )
 
-
 class RecursoVino(Resource):
     def get(self, id):
         vino = vinoteca.Vinoteca.buscarVino(id)
@@ -67,7 +62,6 @@ class RecursoVino(Resource):
             return json.loads(json.dumps(vino.convertirAJSONFull())), 200
         else:
             return {"error": "Vino no encontrado"}, 404
-
 
 class RecursoVinos(Resource):
     def get(self):
@@ -83,7 +77,3 @@ class RecursoVinos(Resource):
         else:
             vinos = vinoteca.Vinoteca.obtenerVinos(anio)
         return json.loads(json.dumps(vinos, default=lambda o: o.convertirAJSONFull())), 200
-
-class RecursoHome(Resource):
-    def get(self):
-        return 'BIENVENIDOS A VINOTECA', 404
